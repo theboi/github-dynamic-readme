@@ -1,13 +1,15 @@
-import Head from 'next/head'
-import style from './style.module.css'
+import React from "react";
+import Head from "next/head";
+import style from "./style.module.css";
 
 export default function EditorPage() {
   return (
-    <div className={style.container}>
+    <>
       <Head>
-        <title>GitHub Readme Cards</title>
+        <title>GitHub README Cards</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-    </div>
-  )
+      <div className={style.main}></div>
+    </>
+  );
 }
