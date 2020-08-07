@@ -7,23 +7,24 @@ const TEMPLATES = {
      <circle cx="25" cy="25" r="20"/>
      <text x="50%" y="50%" style="fill:white">\${hello}</text>
   </svg>`,
-  LANGS: ``
-}
+  LANGS: ``,
+};
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: {
-      hello = ""
+      field = "[]"
     }
   } = req
 
   res.writeHead(200, { "Content-Type": "image/svg+xml" });
-  const temp = fs.readFileSync('./templates/stats.svg').toString()
-  const svg = temp.replace(/\${\w{0,}}/g, (match) => {
-    const key = match.slice(2).slice(0, -1)
-    return 'hello';
+  const template = fs.readFileSync(`${process.cwd()}/public/templates/stats.svg`).toString();
+  const svg = template.replace(/\${\w{0,}}/g, (match) => {
+    const key = match.slice(2).slice(0, -1);
+    return "hello";
   });
   const img = Buffer.from(svg);
-  // const img = fs.readFileSync('./public/image.png');
+  // const img = fs.readFileSync(`${process.cwd()}/public/templates/stats.svg`);
+  // Use process.cwd() instead of __dirname: https://nextjs.org/docs/basic-features/data-fetching#reading-files-use-processcwd
   res.end(img);
 };
