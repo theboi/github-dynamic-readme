@@ -1,14 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 
-const TEMPLATES = {
-  CIRCLE: `
-  <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-     <circle cx="25" cy="25" r="20"/>
-     <text x="50%" y="50%" style="fill:white">\${hello}</text>
-  </svg>`,
-  LANGS: ``,
-};
+const GITHUB_ENDPOINT = 'https://api.github.com/graphql'
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const { query } = req;
@@ -21,7 +14,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   const svg = template
     .replace(/\${\w{0,}}/g, (match) => {
       const key = match.slice(2).slice(0, -1);
-      return (query?.[key] as string) ?? "ERROR";
+      return (query?.[key] as string) ?? "NA";
     })
     .replace(/(\\\\|\\{|\\}|\\\$)/g, (match) => match.slice(-1)); // svg templating unescaping
   const img = Buffer.from(svg);
